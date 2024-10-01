@@ -1,0 +1,91 @@
+version: '1.2'
+
+# Basic service metadata
+service:
+  name: user-management-service
+  description: "This service handles user registration, authentication, and profile management."
+  environment: production
+
+# Configurations for different environments
+environments:
+  production:
+    database:
+      host: prod-db.company.com
+      port: 5432
+      username: prod_user
+      password: "supersecretpassword"
+    redis:
+      host: prod-redis.company.com
+      port: 6379
+    replicas: 5
+    logging:
+      level: INFO
+      format: json
+  development:
+    database:
+      host: dev-db.company.com
+      port: 5432
+      username: dev_user
+      password: "devpassword"
+    redis:
+      host: dev-redis.company.com
+      port: 6379
+    replicas: 1
+    logging:
+      level: DEBUG
+      format: text
+
+# Defining secrets using YAML anchors and references
+secrets:
+  &default_password "defaultpassword123"
+  
+users:
+  admin:
+    username: admin_user
+    password: *default_password   # Reuse default password using an alias
+  guest:
+    username: guest_user
+    password: *default_password   # Same alias for guest user
+
+# List of endpoints exposed by the service
+endpoints:
+  - path: /users
+    method: GET
+    description: Fetch list of users
+    authentication: true
+    cache: true
+
+  - path: /users/{id}
+    method: GET
+    description: Fetch user by ID
+    authentication: true
+    cache: true
+
+  - path: /users
+    method: POST
+    description: Register a new user
+    authentication: false
+    cache: false
+
+# Health check configuration
+healthCheck:
+  endpoint: /health
+  interval: 30  # in seconds
+  timeout: 5    # in seconds
+
+# Retry and timeout settings
+retryPolicy:
+  retries: 3
+  backoff: 200  # milliseconds
+
+# Define a cron job for periodic tasks
+cronJobs:
+  cleanup:
+    schedule: "0 0 * * *"  # Runs every midnight
+    command: "cleanup-users"
+    timeout: 60  # Timeout in seconds
+
+# Feature flags to toggle functionality
+features:
+  userDeletionEnabled: true
+  twoFactorAuthentication: false

@@ -1,0 +1,98 @@
+# Node modules
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Typescript compile output
+dist/
+build/
+out/
+
+# Debugging
+*.swp
+*.swo
+*.swx
+
+# Coverage directory used by testing tools like Jest
+coverage/
+
+# Optional npm cache directory
+.npm/
+
+# Optional eslint cache
+.eslintcache
+
+# Next.js
+.next/
+
+# Parcel-bundler cache (if you're using Parcel for bundling)
+.cache/
+
+# Storybook files
+out/
+.storybook/
+
+# Dependency directories
+.pnp
+.pnp.js
+
+# Yarn v2+
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+
+# Lockfiles
+package-lock.json
+yarn.lock
+
+# Docker
+docker-compose.yml
+Dockerfile
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Mac system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows system files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux system files
+*~
+
+# Temporary files
+*.tmp
+*.temp
+*.pid
+
+# Typescript TSBuildInfo file
+.tsbuildinfo
+
+# Jest Snapshot testing
+*.snap
+
+# Prettier config
+*.prettierrc
