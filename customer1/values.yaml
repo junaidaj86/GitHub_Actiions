@@ -8,7 +8,7 @@ service:
 environments:
   production:
     database:
-      password: newsecretpassword
+      password: hi
 secrets: defaultpassword123
 users:
   admin:
