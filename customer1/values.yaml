@@ -8,7 +8,7 @@ service:
 environments:
   production:
     database:
-      password: newsecretpassword
+      password: sacania passowrd
 secrets: defaultpassword123
 users:
   admin:
