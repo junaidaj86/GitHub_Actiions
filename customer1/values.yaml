@@ -11,7 +11,7 @@ environments:
       password: newsecretpassword
   sandbox:
     database:
-      host: scania.com
+      host: scania.com.cn
       port: 5432
       username: scania
       password: scania
