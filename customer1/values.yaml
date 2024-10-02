@@ -8,7 +8,9 @@ service:
 environments:
   production:
     database:
-      password: newsecretpassword
+      password: sacania passowrd
+    redis:
+      port: 1234
 secrets: defaultpassword123
 users:
   admin:
