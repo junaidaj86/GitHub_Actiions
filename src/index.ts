@@ -21,6 +21,44 @@ const octokit = new Octokit({
   auth: GITHUB_TOKEN,
 });
 
+
+const deepMergeWithChanges = (target: any, source: any) => {
+    for (const key in source) {
+      if (source.hasOwnProperty(key)) {
+        if (typeof source[key] === 'object' && source[key] !== null && !Array.isArray(source[key])) {
+          // If it's a nested object, recurse
+          if (!target[key]) target[key] = {};
+          deepMergeWithChanges(target[key], source[key]);
+        } else {
+          // Only update if the value has changed
+          if (target[key] !== source[key]) {
+            target[key] = source[key];
+          }
+        }
+      }
+    }
+  };
+
+  const addNewObjectsIfNotPresent = (target: any, source: any) => {
+    for (const key in source) {
+      if (source.hasOwnProperty(key)) {
+        if (typeof source[key] === 'object' && source[key] !== null && !Array.isArray(source[key])) {
+          // If it's a nested object, recurse
+          if (!target[key]) {
+            target[key] = {};  // Add the new nested object if it doesn't exist
+          }
+          addNewObjectsIfNotPresent(target[key], source[key]);  // Recurse for nested objects
+        } else {
+          // Only add if the key doesn't exist in the target
+          if (target[key] === undefined) {
+            target[key] = source[key];  // Add new key-value pair
+          }
+        }
+      }
+    }
+  };
+  
+
 // Endpoint to update a YAML file in the GitHub repo
 app.post("/update", async (req: Request, res: Response) => {
   const { filePath, updateData }: UpdateYamlRequest = req.body;
@@ -45,12 +83,14 @@ app.post("/update", async (req: Request, res: Response) => {
         "utf8"
       );
 
+      //let yamlSafe = yaml.safeLoad(content);
+
       // 2. Parse the YAML file
       let yamlData = yaml.load(content) as Record<string, any>;
 
       // 3. Deep merge the new data with the existing data
-      merge(yamlData, updateData); // Use lodash.merge for deep merging
-
+      //merge(yamlData, updateData); // Use lodash.merge for deep merging
+      deepMergeWithChanges(yamlData, updateData);
       // 4. Convert the updated YAML object back to a string
       const updatedYamlContent = yaml.dump(yamlData);
 
@@ -136,7 +176,7 @@ app.post("/add", async (req: Request, res: Response) => {
       let yamlData = yaml.load(content) as Record<string, any>;
 
       // Add the new section (merge)
-      merge(yamlData, newSection);
+      addNewObjectsIfNotPresent(yamlData, newSection);
 
       // Convert updated YAML to string
       const updatedYamlContent = yaml.dump(yamlData);
