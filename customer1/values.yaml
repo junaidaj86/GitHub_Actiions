@@ -9,6 +9,19 @@ environments:
   production:
     database:
       password: newsecretpassword
+  sandbox:
+    database:
+      host: prod-db.company.com
+      port: 5432
+      username: prod_user
+      password: supersecretpassword
+    redis:
+      host: prod-redis.company.com
+      port: 6379
+    replicas: 5
+    logging:
+      level: INFO
+      format: json
 secrets: defaultpassword123
 users:
   admin:
