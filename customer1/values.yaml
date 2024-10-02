@@ -9,6 +9,19 @@ environments:
   production:
     database:
       password: newsecretpassword
+  sandbox:
+    database:
+      host: scania.com
+      port: 5432
+      username: scania
+      password: scania
+    redis:
+      port: 1234
+      host: prod-redis.company.com
+    replicas: 8
+    logging:
+      level: INFO
+      format: json
 secrets: defaultpassword123
 users:
   admin:
