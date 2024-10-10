@@ -1,92 +1,108 @@
-# Iris internal file
-# Enable anonymous user authentication for schema registry
----
-schema:
-  enableAnonymousUserAccess: true
-# Used to express ownership of a topic-prefix or group prefix.
 customers:
-  - name: inad
-    principals:
-      owners:
-        - type: group
-          name: iris-co2-users
-        - type: group
-          name: iris-nile-users
-        - type: group
-          name: iris-webstars-users
-      other:
-        - type: group
-          name: iris-co2-psa
-        - type: group
-          name: iris-co2-ppsa
-        - type: group
-          name: iris-nile-psa
-        - type: group
-          name: iris-nile-ppsa
-        - type: group
-          name: iris-webstars-psa
-    topicPrefixes:
-      - logistics.supplychain.co2calculationsystem
-      - logistics.supplychain.nilepackaging
-      - logistics.supplychain.webstarsapi
-    consumerGroupPrefixes:
-      - co2-
-      - nile-
-      - webstars-
-    schemas:
-      enabled: true
-    principalMappings:
-      - serviceAccount: co2_consumer_client # Prod account
-        oauth: co2_consumer_client
-        clientIpCidrs:
-          - 63.33.229.136/32 # NAT GW inad aws prod
-          - 34.247.141.22/32 # NAT GW inad aws prod
-      - serviceAccount: nile_consumer # Prod account
-        oauth: nile_consumer
-        clientIpCidrs:
-          - 63.33.229.136/32 # NAT GW inad aws prod
-          - 34.247.141.22/32 # NAT GW inad aws prod
-      - serviceAccount: co2_preprod_consumer # Preprod account
-        oauth: co2_preprod_consumer
-        clientIpCidrs:
-          - 63.33.229.136/32 # NAT GW inad aws prod
-          - 34.247.141.22/32 # NAT GW inad aws prod
-      - serviceAccount: nile_preprod_consume # Preprod account
-        oauth: nile_preprod_consume
-        clientIpCidrs:
-          - 63.33.229.136/32 # NAT GW inad aws prod
-          - 34.247.141.22/32 # NAT GW inad aws prod
-      - serviceAccount: webstars_consumer  # Prod account
-        oauth: webstars_consumer
-        clientIpCidrs:
-          - l5854p.sss.se.scania.com # DMZ Server RITM0377067 FW Order
-
-  - name: sparta
-    principals:
-      owners:
-        - type: group
-          name: iris-sparta-users
-      other:
-        - type: group
-          name: iris-sparta-psa
-    topicPrefixes:
-      - ordertodelivery.sparta
-    consumerGroupPrefixes:
-      - bridge-consumer-prod
-      - distribution-sparta-consumer-group-prod
-      - distribution-bridge-consumer-group-prod
-      - sparta-distribution-result-consumer-group-prod
-      - sparta-consumer-group-prod
-    schemas:
-      enabled: true
-    principalMappings:
-      - serviceAccount: sairisp-sparta
-        mtls: CN=sparta.prod.aws.scania.com
-      - serviceAccount: sparta_prod
-        oauth: sparta_prod
-        sourceIpCidrs:
-          - 99.80.237.127/32
-          - 34.241.47.240/32
-          - 138.106.44.25/32
-
- 
+- name: inad
+  principals:
+    owners:
+    - type: group
+      name: iris-co2-users
+    - type: group
+      name: iris-nile-users
+    - type: group
+      name: iris-webstars-users
+    other:
+    - type: group
+      name: iris-co2-psa
+    - type: group
+      name: iris-co2-ppsa
+    - type: group
+      name: iris-nile-psa
+    - type: group
+      name: iris-nile-ppsa
+    - type: group
+      name: iris-webstars-psa
+  topicPrefixes:
+  - logistics.supplychain.co2calculationsystem
+  - logistics.supplychain.nilepackaging
+  - logistics.supplychain.webstarsapi
+  consumerGroupPrefixes:
+  - co2-
+  - nile-
+  - webstars-
+  schemas:
+    enabled: true
+  principalMappings:
+  - serviceAccount: co2_consumer_client
+    oauth: co2_consumer_client
+    clientIpCidrs:
+    - 63.33.229.136/32
+    - 34.247.141.22/32
+  - serviceAccount: nile_consumer
+    oauth: nile_consumer
+    clientIpCidrs:
+    - 63.33.229.136/32
+    - 34.247.141.22/32
+  - serviceAccount: co2_preprod_consumer
+    oauth: co2_preprod_consumer
+    clientIpCidrs:
+    - 63.33.229.136/32
+    - 34.247.141.22/32
+  - serviceAccount: nile_preprod_consume
+    oauth: nile_preprod_consume
+    clientIpCidrs:
+    - 63.33.229.136/32
+    - 34.247.141.22/32
+  - serviceAccount: webstars_consumer
+    oauth: webstars_consumer
+    clientIpCidrs:
+    - l5854p.sss.se.scania.com
+- name: sparta
+  principals:
+    owners:
+    - type: group
+      name: iris-sparta-users
+    other:
+    - type: group
+      name: iris-sparta-psa
+  topicPrefixes:
+  - ordertodelivery.sparta
+  consumerGroupPrefixes:
+  - bridge-consumer-prod
+  - distribution-sparta-consumer-group-prod
+  - distribution-bridge-consumer-group-prod
+  - sparta-distribution-result-consumer-group-prod
+  - sparta-consumer-group-prod
+  schemas:
+    enabled: true
+  principalMappings:
+  - serviceAccount: sairisp-sparta
+    mtls: CN=sparta.prod.aws.scania.com
+  - serviceAccount: sparta_prod
+    oauth: sparta_prod
+    sourceIpCidrs:
+    - 99.80.237.127/32
+    - 34.241.47.240/32
+    - 138.106.44.25/32
+- name: newCustomer
+  principals:
+    owners:
+    - type: group
+      name: iris-newgroup-owners
+    other:
+    - type: group
+      name: iris-newgroup-psa
+  topicPrefixes:
+  - logistics.supplychain.newcustomer
+  consumerGroupPrefixes:
+  - newcustomer-consumer
+  schemas:
+    enabled: true
+  principalMappings:
+  - serviceAccount: newcustomer_prod
+    oauth: newcustomer_prod
+    clientIpCidrs:
+    - 63.33.229.136/32
+    - 34.247.141.22/32
+  - serviceAccount: newcustomer_preprod
+    oauth: newcustomer_preprod
+    clientIpCidrs:
+    - 63.33.229.136/32
+    - 34.247.141.22/32
